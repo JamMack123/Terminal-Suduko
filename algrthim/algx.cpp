@@ -16,9 +16,9 @@ cell *header = new cell;
 void cover(cell c){
 	c->right->left = c->left;
 	c->left->right = c->right;
-	cell i = c->down;
+	cell *i = c->down;
 	while(i != c){
-		j = i->right;
+		cell *j = i->right;
 		while(j != i){
 			j->down->up = j->up;
 			j->up->down = j->down;
@@ -29,10 +29,10 @@ void cover(cell c){
 	}
 	return;
 }
-void uncover(cell c){
-	i = c->up;
+void uncover(cell *c){
+	cell *i = c->up;
 	while(i != c){
-		j = i->left;
+		cell *j = i->left;
 		while(j!= i){
 			j->column->cSize--;
 			j->down->up = j;
@@ -89,11 +89,11 @@ void search(int depth, vector <struct cell*> soln){
 		print_solutions(soln);
 		return;
 	} else {
-		cell c = findStartColumn(header);
-		cell r = c->down;
+		cell *c = findStartColumn(header);
+		cell *r = c->down;
 		while(c != r){
 			soln.push_back(r);
-			cell j = r->right;
+			cell *j = r->right;
 			while(j != r){
 				cover(j->column);
 				j = j->right;
