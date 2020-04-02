@@ -13,9 +13,106 @@ using namespace std;
 
 cell *header = new cell;
 
-void cover(){
-    int x = 7;
-};
+void cover(cell c){
+	c->right->left = c->left;
+	c->left->right = c->right;
+	cell i = c->down;
+	while(i != c){
+		j = i->right;
+		while(j != i){
+			j->down->up = j->up;
+			j->up->down = j->down;
+			j->cSize = j->column->cSize-1;
+			j = j->right;
+		}
+		i = i -> down;
+	}
+	return;
+}
+void uncover(cell c){
+	i = c->up;
+	while(i != c){
+		j = i->left;
+		while(j!= i){
+			j->column->cSize--;
+			j->down->up = j;
+			j->up->down = k;
+			j = j->left;
+		}
+		i = i->up;
+	}
+	c->right->left = c;
+	c->left->right = c;
+	return;
+}
+cell* findStartColumn(){
+	cell label = header->right;
+	cell value = label->down;
+	cell* first;
+	int count = 0;
+	int saved = 0;
+
+	while(label != header){
+		while(value != label){
+			if(value == '1'){
+				count++;
+				value = value->down;
+			}
+		}
+		if(saved > count){
+			saved = count;
+			count = 0;
+			first = label;
+			label = label->right;
+
+		}
+	}
+
+	/*
+	struct cell *h = header;
+	struct cell *first = h->right;
+	h = h->right->right;
+	do
+	{
+		if(h->nodeCount < first->nodeCount){
+			first = h;
+		}
+		h = h->right;
+	}while(h != header);
+	*/
+
+	return first;
+}
+
+void search(int depth, vector <struct cell*> soln){
+	if(header->right == header){
+		print_solutions(soln);
+		return;
+	} else {
+		cell c = findStartColumn(header);
+		cell r = c->down;
+		while(c != r){
+			soln.push_back(r);
+			cell j = r->right;
+			while(j != r){
+				cover(j->column);
+				j = j->right;
+			}
+			search(header, k+1, soln);
+			soln.pop_back();
+			//r = s[k]; ?????????
+			c = r->column;
+			j = r->left;
+			while(j!=r){
+				uncover(j->column);
+				j = j->left;
+			}
+			r = r->down;
+		}
+		uncover(c);
+		return;
+	}
+}
 
 void search(cell *header, int depth, vector<int> soln){
     int X = 7;
