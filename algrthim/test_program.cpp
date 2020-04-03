@@ -5,9 +5,9 @@
 int main(){
     cell *h = new cell; 
     vector<vector<bool>> prob;
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 5; i++){
         vector<bool> temp;
-        for(int j=0; j < 10; j++){
+        for(int j=0; j < 5; j++){
             if(i == 0){
                 temp.push_back(true);
             }else
@@ -24,7 +24,6 @@ int main(){
     // prob[6][4] = true;
     // prob[9][2] = true;
     // prob[2][8] = true;
-    cell test =  createLinkedMatrix(prob, 10,10);
-    
+    solve(prob);
     return 0;
 }
