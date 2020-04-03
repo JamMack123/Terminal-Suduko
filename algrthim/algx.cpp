@@ -1,5 +1,4 @@
 #include "algx.h"
-#include "algx.h"
 #include <vector>
 
 #include <iostream>
@@ -13,114 +12,100 @@ using namespace std;
 
 cell *header = new cell;
 
-void cover(cell c){
-	c->right->left = c->left;
-	c->left->right = c->right;
-	cell *i = c->down;
-	while(i != c){
-		cell *j = i->right;
-		while(j != i){
-			j->down->up = j->up;
-			j->up->down = j->down;
-			j->cSize = j->column->cSize-1;
-			j = j->right;
-		}
-		i = i -> down;
-	}
-	return;
-}
-void uncover(cell *c){
-	cell *i = c->up;
-	while(i != c){
-		cell *j = i->left;
-		while(j!= i){
-			j->column->cSize--;
-			j->down->up = j;
-			j->up->down = k;
-			j = j->left;
-		}
-		i = i->up;
-	}
-	c->right->left = c;
-	c->left->right = c;
-	return;
-}
-cell* findStartColumn(){
-	cell label = header->right;
-	cell value = label->down;
-	cell* first;
-	int count = 0;
-	int saved = 0;
-
-	while(label != header){
-		while(value != label){
-			if(value == '1'){
-				count++;
-				value = value->down;
-			}
-		}
-		if(saved > count){
-			saved = count;
-			count = 0;
-			first = label;
-			label = label->right;
-
-		}
-	}
-
-	/*
-	struct cell *h = header;
-	struct cell *first = h->right;
-	h = h->right->right;
-	do
-	{
-		if(h->nodeCount < first->nodeCount){
-			first = h;
-		}
-		h = h->right;
-	}while(h != header);
-	*/
-
-	return first;
-}
-
-void search(int depth, vector <struct cell*> soln){
-	if(header->right == header){
-		print_solutions(soln);
-		return;
-	} else {
-		cell *c = findStartColumn(header);
-		cell *r = c->down;
-		while(c != r){
-			soln.push_back(r);
-			cell *j = r->right;
-			while(j != r){
-				cover(j->column);
-				j = j->right;
-			}
-			search(header, k+1, soln);
-			soln.pop_back();
-			//r = s[k]; ?????????
-			c = r->column;
-			j = r->left;
-			while(j!=r){
-				uncover(j->column);
-				j = j->left;
-			}
-			r = r->down;
-		}
-		uncover(c);
-		return;
-	}
-}
-
-void search(cell *header, int depth, vector<int> soln){
-    int X = 7;
+void cover(cell *c){
+    c->right->left = c->left;
+    c->left->right = c->right;
+    cell *i = c->down;
+    while(i != c){
+        cell *j = i->right;
+        while(j != i){
+            j->down->up = j->up;
+            j->up->down = j->down;
+            j->count = j->column->count-1;
+            j = j->right;
+        }
+        i = i -> down;
+    }
+    return;
 };
+
+void uncover(cell *c){
+    cell *i = c->up;
+    while(i != c){
+        cell *j = i->left;
+        while(j!= i){
+            j->column->count--;
+            j->down->up = j;
+            j->up->down = j;
+            j = j->left;
+        }
+        i = i->up;
+    }
+    c->right->left = c;
+    c->left->right = c;
+    return;
+}
+
+cell* findStartColumn(){
+    cell *i = header->right;
+    cell *key;
+    int col = 999999999999999999999;
+    while(i != header){
+        int temp = i->count;
+        if(temp < col){
+            col = temp;
+            key = i;
+        }
+        i = i->right;
+    }
+    return key;
+    /*
+    struct cell *h = header;
+    struct cell *first = h->right;
+    h = h->right->right;
+    do
+    {
+        if(h->nodeCount < first->nodeCount){
+            first = h;
+        }
+        h = h->right;
+    }while(h != header);
+    */
+
+}
+
+void search(int depth, vector <int> soln){
+    if(header->right == header){
+        // print_solutions(soln);
+        return;
+    } else {
+        cell *c = findStartColumn();
+        cell *r = c->down;
+        while(c != r){
+            soln.push_back(r->rowID);
+            cell *j = r->right;
+            while(j != r){
+                cover(j->column);
+                j = j->right;
+            }
+            search(depth+1, soln);
+            soln.pop_back();
+            //r = s[k]; ?????????
+            c = r->column;
+            j = r->left;
+            while(j!=r){
+                uncover(j->column);
+                j = j->left;
+            }
+            r = r->down;
+        }
+        uncover(c);
+        return;
+    }
+}
 
 void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
     cell matrix[maxRow][maxColumn];
-
     for(int i =0; i< maxRow; i++){
         for(int j = 0; j < maxColumn; j++){
             if(probMatrix[i][j]){
@@ -173,6 +158,8 @@ void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
             }
         }
     }
+    //Pointer fixing for header node
+    //This allows for a single obect to reference the whole array
     header->right = &matrix[0][0];
     header->left = &matrix[0][maxColumn-1];
     matrix[0][0].left = header;
@@ -180,5 +167,19 @@ void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
 }
 
 void solve(theThing probMatrix){
+    int maxCol, maxRow;
+    maxCol = probMatrix[0].size();
+    maxRow = probMatrix.size();
+    createLinkedMatrix(probMatrix, maxRow,maxCol);
+    
 
+
+    cout << header->right << endl;
+    cell *temp = header->right;
+    cover(temp);
+    cout << header->right << endl;
+    uncover(temp);
+    cout << header->right << endl;
+    temp = findStartColumn();
+    cout << temp << endl;
 }
