@@ -11,16 +11,17 @@ struct cell{
     struct cell *column;
     int rowID;
     int colID;
-    int count =0;
+    int count = 0;
 };
 
 void createLinkedMatrix(vector<vector<bool>> probMatrix, int MaxRow, int MaxColumn);
 
 void search(cell *header, int depth, vector<int> soln);
 
-void cover();
+void cover(cell *c);
 
-void uncover();
-void soln(vector<vector<bool>>);
+void uncover(cell *c);
+
+void solve(vector<vector<bool>>);
 
 #endif
