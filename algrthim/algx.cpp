@@ -104,10 +104,11 @@ void search(int depth, vector <int> soln){
     }
 }
 
-void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
-    cell matrix[maxRow][maxColumn];
+void createLinkedMatrix(theThing probMatrix,int maxRow, int maxColumn, cell *matrix[]){
     for(int i =0; i< maxRow; i++){
+        cout << i <<": ";
         for(int j = 0; j < maxColumn; j++){
+            cout<< probMatrix[i][j] << " ";
             if(probMatrix[i][j]){
                 //Assigns ids to matrix
                 matrix[i][j].rowID = i;
@@ -141,10 +142,14 @@ void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
                 temp = i;
                 do{
                     temp++;
+                    
                     //Confirms wrap around
                     temp = temp%(maxRow);
+                    // cerr<< temp<< endl;
                 }while(!probMatrix[temp][j] && i != temp);
                 matrix[i][j].down = &matrix[temp][j];
+                // cerr <<"Do: "<< i <<" " << j << " " << matrix[i][j].down<< endl;
+                // cerr << matrix[i][j].down << endl;
                 //Assigning up pointer
                 temp = i;
                 do{
@@ -153,10 +158,13 @@ void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
                         //Confirms wrap around
                         temp = maxRow-1;
                     }
+                    // cerr << temp << endl;
                 }while(!probMatrix[temp][j] && i != temp);
                 matrix[i][j].up = &matrix[temp][j];
+                // cerr <<"Up: " << i <<" " << j << " " << matrix[i][j].up << endl << endl;
             }
         }
+        cout << endl;
     }
     //Pointer fixing for header node
     //This allows for a single obect to reference the whole array
@@ -165,21 +173,16 @@ void createLinkedMatrix(theThing probMatrix, int maxRow, int maxColumn){
     matrix[0][0].left = header;
     matrix[0][maxColumn-1].right = header;
 }
-
 void solve(theThing probMatrix){
-    int maxCol, maxRow;
+int maxRow, maxCol;
     maxCol = probMatrix[0].size();
     maxRow = probMatrix.size();
-    createLinkedMatrix(probMatrix, maxRow,maxCol);
-    
-
-
-    cout << header->right << endl;
-    cell *temp = header->right;
-    cover(temp);
-    cout << header->right << endl;
-    uncover(temp);
-    cout << header->right << endl;
-    temp = findStartColumn();
-    cout << temp << endl;
+    cell *matrix[maxRow];
+    //Reserves space for the matrix so the pointers
+    //organized within the create linked matrix function do
+    //not get destroyed
+    for(int i = 0; i < maxCol; i++){
+        matrix[i] = new cell[maxCol];
+    }
+    createLinkedMatrix(probMatrix, maxRow, maxCol, matrix);
 }
