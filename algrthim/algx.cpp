@@ -10,7 +10,10 @@
 
 using namespace std;
 
+vector<int> soln;
 cell *header = new cell;
+// static int maxRow = 0;
+// static int maxCol = 0;
 
 void cover(cell *c){
     c->right->left = c->left;
@@ -49,48 +52,44 @@ void uncover(cell *c){
 cell* findStartColumn(){
     cell *i = header->right;
     cell *key;
-    int col = 999999999999999999999;
+    //The exact max value for an int in C++ this way there is no possible
+    //way that the number of 1s in any column is greater then this
+    //unless yu are using larger data types
+    int max = 2147483647;
     while(i != header){
         int temp = i->count;
-        if(temp < col){
-            col = temp;
+        if(temp < max){
+            max = temp;
             key = i;
         }
         i = i->right;
     }
+    // cout << "Finished " << endl;
     return key;
-    /*
-    struct cell *h = header;
-    struct cell *first = h->right;
-    h = h->right->right;
-    do
-    {
-        if(h->nodeCount < first->nodeCount){
-            first = h;
-        }
-        h = h->right;
-    }while(h != header);
-    */
 
 }
 
-void search(int depth, vector <int> soln){
+void search(vector<int> &ans){
     if(header->right == header){
-        // print_solutions(soln);
+        //Have to save values to external vector
+        //due to recursive nature of the function
+        for(auto i = soln.begin(); i != soln.end(); i++){
+            ans.push_back(*i);
+        }
         return;
     } else {
         cell *c = findStartColumn();
         cell *r = c->down;
         while(c != r){
-            soln.push_back(r->rowID);
-            cell *j = r->right;
-            while(j != r){
+            int temp = r->rowID;
+            soln.push_back(temp);
+            cell *j = r;
+            do{
                 cover(j->column);
                 j = j->right;
-            }
-            search(depth+1, soln);
+            }while(j != r);
+            search(ans);
             soln.pop_back();
-            //r = s[k]; ?????????
             c = r->column;
             j = r->left;
             while(j!=r){
@@ -103,7 +102,6 @@ void search(int depth, vector <int> soln){
         return;
     }
 }
-
 void createLinkedMatrix(theThing probMatrix,int maxRow, int maxColumn, cell *matrix[]){
     for(int i =0; i< maxRow; i++){
         cout << i <<": ";
@@ -145,11 +143,8 @@ void createLinkedMatrix(theThing probMatrix,int maxRow, int maxColumn, cell *mat
                     
                     //Confirms wrap around
                     temp = temp%(maxRow);
-                    // cerr<< temp<< endl;
                 }while(!probMatrix[temp][j] && i != temp);
                 matrix[i][j].down = &matrix[temp][j];
-                // cerr <<"Do: "<< i <<" " << j << " " << matrix[i][j].down<< endl;
-                // cerr << matrix[i][j].down << endl;
                 //Assigning up pointer
                 temp = i;
                 do{
@@ -158,7 +153,6 @@ void createLinkedMatrix(theThing probMatrix,int maxRow, int maxColumn, cell *mat
                         //Confirms wrap around
                         temp = maxRow-1;
                     }
-                    // cerr << temp << endl;
                 }while(!probMatrix[temp][j] && i != temp);
                 matrix[i][j].up = &matrix[temp][j];
                 // cerr <<"Up: " << i <<" " << j << " " << matrix[i][j].up << endl << endl;
@@ -173,16 +167,26 @@ void createLinkedMatrix(theThing probMatrix,int maxRow, int maxColumn, cell *mat
     matrix[0][0].left = header;
     matrix[0][maxColumn-1].right = header;
 }
+
 void solve(theThing probMatrix){
-int maxRow, maxCol;
+    int maxRow, maxCol;
     maxCol = probMatrix[0].size();
     maxRow = probMatrix.size();
-    cell *matrix[maxRow];
+    cell *matrix[maxCol];
     //Reserves space for the matrix so the pointers
     //organized within the create linked matrix function do
     //not get destroyed
     for(int i = 0; i < maxCol; i++){
-        matrix[i] = new cell[maxCol];
+        matrix[i] = new cell[maxRow];
     }
     createLinkedMatrix(probMatrix, maxRow, maxCol, matrix);
+    
+
+    cell *temp = header->right;
+  
+    vector<int> ans;
+    search(ans);
+    cerr << ans.size() << endl;
+    cout << ans[0] << endl;
+    // cout << soln[0] << endl;
 }
