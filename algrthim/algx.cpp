@@ -190,3 +190,16 @@ void solve(theThing probMatrix){
     cout << ans[0] << endl;
     // cout << soln[0] << endl;
 }
+
+void print_solutions(vector<int> soln){
+	if(soln.size() >0){
+		cout<<"Rows That Solve The Problem Matrix Are : ";
+		for(int i = 0; i < soln.size(); i++){
+			cout<<soln[i]<<" ";
+		}
+		cout<<" "<<endl;
+	} else{
+		cout<<"There Are No Rows That Solve The Problem"<<endl;
+	}
+	return;
+}
