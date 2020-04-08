@@ -5,11 +5,23 @@ WINTER 2020
 Assignment 2 Part 2
 
 Included Files:
-	-README
+	- algx.cpp/.h
+	- program.cpp/sh
+	- Errors, Expected, Inputs, Outputs, Resources folders
+	- opentestcenter.sh
+	- testcenter.ini
+	- README
 
 
 Running instructions:
-
+	Test Center Version
+	- In the directory of where the files are, type ./opentestcenter.sh and the
+	test center should pop up. Either press ctrl + R to run the program or 
+	click on the Run tab then Run all and all the test cases will be tested. 
+	- To see the test cases, go into the test case folder and go into the Inputs folders to see all the input files
 
 Notes and Assumptions
-
+	- The basis of the files for the testcenter were borrowed from a testcenter for the morning problems. We ran into a
+	few problems merging the testcenter and the format of our program seeing as we were including header files in the main
+	cpp file. 
+	- The idea and how to solve a cover problem using Algorithm X came from multiple websites detailing the basis of what the algorithm runs on.	
