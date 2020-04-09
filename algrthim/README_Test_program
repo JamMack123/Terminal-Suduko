@@ -2,26 +2,32 @@ Name: Justn MacKenzie, Paige Lekach
 ID #: 1572034 , 1573266
 CMPUT 275 
 WINTER 2020
-Assignment 2 Part 2
+Final Project: Algorithm X and the Cover Problem
+Program Description:
+For our project, we decided to implement Algorithm X in c++. Algorithm X is a way to find the rows of a matrix that will solve a universal set.
+We implemented the algorithm using a main .cpp file and a .cpp/.h algx file. We created 6 functions in the algx.cpp file to implement the Algorithm.
+Functions:
+Cover = Covers a column in the matrix and all the adjacent cells connected to the column
+Uncover = Uncover a column and all the adjacent cells that were connected
+findStartColumn = Searches the matrix for the column that has the least amount of 1's/true's which will be thw initial column added to the solution vector
+		  in the search function
+search = This is the main function taht searches the given problem matrix for the rows that solve the universal set
+createLinkedMatrix = This function takes the problem matrix that is given and converts to a matrix of 1's and 0's and linkes all the cells to the cells of teh columns and rows around it.
+		     Each cell is linked up, down, left, right, to other cells.  
+solve = This calls on all the functions to be able to solve the problem matrix and returns the ans vector for the test_program output.
 
 Included Files:
 	- algx.cpp/.h
-	- program.cpp/sh
-	- Errors, Expected, Inputs, Outputs, Resources folders
-	- opentestcenter.sh
-	- testcenter.ini
+	- test_program.cpp
+	- Makefile
 	- README
 
-
 Running instructions:
-	Test Center Version
-	- In the directory of where the files are, type ./opentestcenter.sh and the
-	test center should pop up. Either press ctrl + R to run the program or 
-	click on the Run tab then Run all and all the test cases will be tested. 
-	- To see the test cases, go into the test case folder and go into the Inputs folders to see all the input files
+	- In a terminal go to the directory where the Makefile, algx.cpp/.h and test_program.cpp files are saved and
+	type make into the terminal then after the files compile, type ./test_program to run the program.
+	- To test different problem matrix's in the test_program.cpp file different sizes for maxRow or col's can be
+	changed and which cell's are true or false.
 
 Notes and Assumptions
-	- The basis of the files for the testcenter were borrowed from a testcenter for the morning problems. We ran into a
-	few problems merging the testcenter and the format of our program seeing as we were including header files in the main
-	cpp file. 
-	- The idea and how to solve a cover problem using Algorithm X came from multiple websites detailing the basis of what the algorithm runs on.	
+	- The idea and how to solve a cover problem using Algorithm X came from multiple websites detailing the basis
+	of what the algorithm runs on.	
