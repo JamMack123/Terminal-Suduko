@@ -40,6 +40,6 @@ void cover(cell *c);
 
 void uncover(cell *c);
 
-void solve(vector<vector<bool>>);
+vector<int> solve(vector<vector<bool>>);
 
 #endif
