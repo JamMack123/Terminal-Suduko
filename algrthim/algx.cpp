@@ -18,6 +18,7 @@ Final Project: Algorithm X and COver Problems
 
 using namespace std;
 // Our global vectors
+bool run =true;
 vector<int> soln;
 cell *header = new cell;
 
@@ -106,6 +107,11 @@ cell* findStartColumn(){
     are added as they are found as solutions. The uncover, cover, findFirstColumn function are utilised here
 */
 void search(vector<int> &ans){
+    if(!run){
+        //Guarentees any remaing calls exit
+        //first soln is found
+        return;
+    }
     // Case where all the solutions have been found and the solution is added to the ans vector
     if(header->right == header){
         //Have to save values to external vector
@@ -113,6 +119,7 @@ void search(vector<int> &ans){
         for(auto i = soln.begin(); i != soln.end(); i++){
             ans.push_back(*i);
         }
+        run = false;
         return;
     } else {
         // Initializing our variables
