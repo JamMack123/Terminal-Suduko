@@ -48,3 +48,4 @@ TEST CENTER FORMATTING:
 
 	The zero is required as a placeholder for the current version of the solution. This simply because when the solution was coded I could not think of an easy way to deal with none uniform sized sets. 
 
+	Many of the test cases we have already created are smaller tests to simply determine if the algorthim works. Upon large test cases this algorthim could timeout with the default timout conditions defined
