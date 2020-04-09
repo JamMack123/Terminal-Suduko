@@ -1,32 +1,43 @@
+/*
+Name: Justn MacKenzie, Paige Lekach
+ID #: 1572034 , 1573266
+CMPUT 275 
+WINTER 2020
+Final Project: Algorithm X and COver Problems
+*/
 #include <iostream>
+#include <vector>
 #include "algx.h"
-#define matrix vector<vector<int>>
-#define boolMatrix vector<vector<bool>>
+#define matrixThing vector<vector<int>>
+#define  theThing vector<vector<bool>>
 //probmatrix must be made out of vector for the 
 //algortim to work 
 
 
 using namespace std;
 
+vector<int> solve(vector<vector<bool>> probMatrix);
+
 int main() {
-    int m, n;
-    cin >> n;
-    cin >> m;
-    cout << n <<" " << m << endl;
-    matrix probMatrix;
-    for(int j = 0; j<= m; j++){
+    // Reading in the input for the col and row #'s of the matrix
+    int rows, col;
+    cin >> rows;
+    cin >> col;
+    matrixThing probMatrix;
+    //creating the problem matrix using vectors from the input
+    for(int j = 0; j <= rows; j++){
         vector<int> temp;
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < col; i++){
             int val = 0;
             cin >> val;
             temp.push_back(val);
         }
         probMatrix.push_back(temp);
     }
-    boolMatrix output;
-    for(int i = 0; i <= m; i++){
+    theThing output;
+    for(int i = 0; i <= rows; i++){
         vector<bool> temp;
-        for(int j = 0; j < n;j++){
+        for(int j = 0; j < col;j++){
             if(probMatrix[i][j] != 0){
                 temp.push_back(true);
             }
@@ -36,18 +47,11 @@ int main() {
         }
         output.push_back(temp);
     }
-
-
-
-    for(int i = 0; i<= m; i++){
-        for(int j = 0; j<n; j++){
-            cout << output[i][j] <<" ";
-        }
-        cout << endl;
-    }
-
+    
+    // Solving the matrix and outputing the result
+    // Either has a solution of rows or doesn'y
     vector<int> soln; 
-    soln  = solve(output);
+    soln = solve(output);
     if(soln.size() > 0){
         cout<<"The ROWS that solve the problem matrix are: ";
         for(auto i = soln.begin(); i!= soln.end(); i++){
