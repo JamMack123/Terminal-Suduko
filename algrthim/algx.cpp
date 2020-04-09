@@ -240,13 +240,12 @@ vector<int> solve(theThing probMatrix){
     int maxRow, maxCol;
     maxCol = probMatrix[0].size();
     maxRow = probMatrix.size();
-    cell *matrix[maxCol];
-
+    cell *matrix[maxRow];
     //Reserves space for the matrix so the pointers
     //organized within the create linked matrix function do
     //not get destroyed
-    for(int i = 0; i < maxCol; i++){
-        matrix[i] = new cell[maxRow];
+    for(int i = 0; i < maxRow; i++){
+        matrix[i] = new cell[maxCol];
     }
     
     // Creating out Linked Matrix 
