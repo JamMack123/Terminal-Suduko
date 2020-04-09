@@ -48,5 +48,13 @@ int main() {
 
     vector<int> soln; 
     soln  = solve(output);
+    if(soln.size() > 0){
+        cout<<"The ROWS that solve the problem matrix are: ";
+        for(auto i = soln.begin(); i!= soln.end(); i++){
+            cout << *i << " ";
+        }
+    } else{
+        cout<<"No solution to the problem matrix inputed!"<<endl;
+    }
     return 0;
 }
