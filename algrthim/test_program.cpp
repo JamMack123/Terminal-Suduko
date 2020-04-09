@@ -1,3 +1,11 @@
+/*
+Name: Justn MacKenzie, Paige Lekach
+ID #: 1572034 , 1573266
+CMPUT 275 
+WINTER 2020
+Final Project: Algorithm X and COver Problems
+*/
+
 #include "algx.h"
 #include <vector>
 #include <iostream>
